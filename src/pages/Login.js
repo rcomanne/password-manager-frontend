@@ -3,10 +3,7 @@ import {Link, Redirect} from "react-router-dom";
 import {useAuth} from "../context/auth";
 
 function Login(props) {
-    // todo: sometimes filled, not always... causes crashes
-    console.log(props.location)
     const referrer = props.location.state.referrer || '/';
-    console.log(referrer)
 
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [isError, setIsError] = useState(false);
@@ -27,9 +24,6 @@ function Login(props) {
                 "password": password
             })
         }).catch(console.log);
-
-        console.log("Response: ", response)
-
         if (response.ok) {
             const json = await response.json();
 

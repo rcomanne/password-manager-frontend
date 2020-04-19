@@ -4,11 +4,10 @@ import {useAuth} from "../context/auth";
 function Passwords(props) {
     const [passwords, setPasswords] = useState([]);
     const { authTokens } = useAuth();
-    console.log("fetching passwords");
 
-    function fetchPasswords() {
+    async function fetchPasswords() {
         console.log("fetching passwords")
-        fetch('http://localhost:8080/pw', {
+        await fetch('http://localhost:8080/pw', {
             method: 'GET',
             mode: 'no-cors',
             headers: {
