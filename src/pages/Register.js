@@ -18,7 +18,7 @@ function Register() {
         }
 
         console.log("submit registration form");
-        const response = await fetch('http://localhost:8181/user/register', {
+        const response = await fetch('https://api.rcomanne.nl/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

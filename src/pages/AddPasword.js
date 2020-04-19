@@ -12,7 +12,7 @@ function AddPassword() {
     async function postPassword(event) {
         event.preventDefault();
         console.log("submit password");
-        const response = await fetch('http://localhost:8181/pw/add', {
+        const response = await fetch('https://api.rcomanne.nl/pw/add', {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + authTokens,

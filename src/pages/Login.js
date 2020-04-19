@@ -15,7 +15,7 @@ function Login(props) {
     async function postLogin(event) {
         event.preventDefault();
         console.log("submit login form");
-        const response = await fetch('http://localhost:8181/user/login', {
+        const response = await fetch('https://api.rcomanne.nl/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

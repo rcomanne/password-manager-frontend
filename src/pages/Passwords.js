@@ -30,7 +30,7 @@ function Passwords() {
 
     async function fetchPasswords() {
         console.log("fetching passwords")
-        await fetch('http://localhost:8181/pw/all', {
+        await fetch('https://api.rcomanne.nl/pw/all', {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + authTokens,
@@ -48,7 +48,7 @@ function Passwords() {
     function fetchUnencryptedPassword(key, event) {
         event.preventDefault();
         console.log("fetching unencrypted password")
-        fetch('http://localhost:8181/pw/' + key, {
+        fetch('https://api.rcomanne.nl/pw/' + key, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + authTokens,
