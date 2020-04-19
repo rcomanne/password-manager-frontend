@@ -1,0 +1,7 @@
+{
+  "short_name": "PasswordManager",
+  "name": "Password Manager",
+  "permissions": [
+    "clipboardWrite"
+  ]
+}

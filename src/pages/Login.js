@@ -3,7 +3,8 @@ import {Link, Redirect} from "react-router-dom";
 import {useAuth} from "../context/auth";
 
 function Login(props) {
-    const referrer = props.location.state.referrer || '/';
+    console.log(props.location)
+    const referrer = getReferrer(props.location);
 
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [isError, setIsError] = useState(false);
@@ -14,7 +15,7 @@ function Login(props) {
     async function postLogin(event) {
         event.preventDefault();
         console.log("submit login form");
-        const response = await fetch('http://localhost:8080/user/login', {
+        const response = await fetch('http://localhost:8181/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -24,7 +25,7 @@ function Login(props) {
                 "password": password
             })
         }).catch(console.log);
-        if (response.ok) {
+        if (response !== undefined && response.ok) {
             const json = await response.json();
 
             setAuthTokens(json.jwtToken);
@@ -35,7 +36,7 @@ function Login(props) {
     }
 
     if (isLoggedIn) {
-        console.log("Has logged in ",props.location)
+        console.log("Logged in, referring to ", referrer)
         return <Redirect to={referrer}/>
     }
 
@@ -44,22 +45,33 @@ function Login(props) {
             <form onSubmit={postLogin}>
                 <div className="form-group">
                     <label htmlFor="loginEmail">Email address</label>
-                    <input id="mail" type="email" value={mail} className="form-control" required={true} placeholder="Enter email" onChange={e => {
+                    <input id="mail" type="email" value={mail} className="form-control" required={true}
+                           placeholder="Enter email" onChange={e => {
                         setMail(e.target.value);
                     }}/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="loginPassword">Password</label>
-                    <input id="password" type="password" value={password} className="form-control" required={true} placeholder="Password" onChange={e => {
+                    <input id="password" type="password" value={password} className="form-control" required={true}
+                           placeholder="Password" onChange={e => {
                         setPassword(e.target.value);
                     }}/>
                 </div>
                 <input type="submit" className="btn btn-primary" value="Submit"/>
             </form>
             <Link to="/register">Don't have an account?</Link>
-            { isError && <div className="alert alert-danger" role="alert">Login failed!</div> }
+            {isError && <div className="alert alert-danger" role="alert">Login failed!</div>}
         </div>
     )
+}
+
+function getReferrer(location) {
+    console.log("Retrieving referrer from location history: ", location)
+    if (location.state != null) {
+        return location.state.from.pathname;
+    } else {
+        return '/';
+    }
 }
 
 export default Login;

@@ -10,14 +10,15 @@ function Register() {
     const [password2, setPassword2] = useState("");
     const {setAuthTokens} = useAuth();
 
-    async function postRegister() {
+    async function postRegister(event) {
+        event.preventDefault();
         if (password1 !== password2) {
             setIsError(true);
             return;
         }
 
         console.log("submit registration form");
-        const response = await fetch('http://localhost:8080/user/register', {
+        const response = await fetch('http://localhost:8181/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

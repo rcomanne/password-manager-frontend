@@ -2,9 +2,9 @@ import React from "react";
 import {Route, Redirect} from "react-router-dom";
 import {useAuth} from "./context/auth";
 
-function PrivateRoute({ component: Component, ...rest}) {
+function PrivateRoute({component: Component, ...rest}) {
 
-    const { authTokens } = useAuth();
+    const {authTokens} = useAuth();
 
     return (
         <Route
@@ -13,7 +13,12 @@ function PrivateRoute({ component: Component, ...rest}) {
                 authTokens ? (
                     <Component {...props}/>
                 ) : (
-                    <Redirect to={{ pathname: "/login", state: {referrer: props.location.pathname} }}/>
+                    <Redirect
+                        to={{
+                            pathname: "/login",
+                            state: {from: props.location}
+                        }}
+                    />
                 )
             }
         />
