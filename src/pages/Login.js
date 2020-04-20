@@ -3,7 +3,6 @@ import {Link, Redirect} from "react-router-dom";
 import {useAuth} from "../context/auth";
 
 function Login(props) {
-    console.log(props.location)
     const referrer = getReferrer(props.location);
 
     const [isLoggedIn, setLoggedIn] = useState(false);
@@ -36,7 +35,6 @@ function Login(props) {
     }
 
     if (isLoggedIn) {
-        console.log("Logged in, referring to ", referrer)
         return <Redirect to={referrer}/>
     }
 
@@ -66,7 +64,6 @@ function Login(props) {
 }
 
 function getReferrer(location) {
-    console.log("Retrieving referrer from location history: ", location)
     if (location.state != null) {
         return location.state.from.pathname;
     } else {

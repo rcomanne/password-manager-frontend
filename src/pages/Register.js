@@ -39,7 +39,7 @@ function Register() {
     }
 
     if (isLoggedIn) {
-        return <Redirect to="/"/>
+        return <Redirect to="/passwords"/>
     }
 
     return (

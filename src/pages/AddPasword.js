@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {useAuth} from "../context/auth";
+import {Redirect} from "react-router-dom";
 
 function AddPassword() {
     const { authTokens } = useAuth();
@@ -30,8 +31,7 @@ function AddPassword() {
             })
         }).catch(console.log);
         if (response !== undefined && response.ok) {
-            const json = await response.json();
-            console.log(json);
+            return <Redirect to="/passwords"/>
         } else {
             setIsError(true);
         }
