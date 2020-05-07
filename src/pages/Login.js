@@ -30,14 +30,16 @@ function Login(props) {
         if (response === undefined) {
             setIsError(true);
             setErrorMessage("Could not get a response from the service.")
-        } else if (response.ok) {
-            const json = await response.json();
-            setAuthTokens(json.jwtToken);
-            setLoggedIn(true);
         } else {
-            const json = await response.json();
-            setErrorMessage(json.message);
-            setIsError(true);
+            if (response.ok) {
+                const json = await response.json();
+                setAuthTokens(json.jwtToken);
+                setLoggedIn(true);
+            } else {
+                const json = await response.json();
+                setErrorMessage(json.message);
+                setIsError(true);
+            }
         }
     }
 

@@ -40,6 +40,10 @@ function Passwords() {
         setFailed(!successful)
     }
 
+    function setPassword(key, value) {
+        passwords[key].password = value
+    }
+
     async function fetchPasswords() {
         const response = await fetch('https://api.rcomanne.nl/pw/all', {
             method: 'GET',
@@ -55,7 +59,6 @@ function Passwords() {
         } else if (response.ok) {
             const json = await response.json()
             setPasswords(json)
-            updateAlert("Retrieved passwords", true)
         } else {
             const json = await response.json()
             updateAlert(json.message, false)
@@ -91,6 +94,35 @@ function Passwords() {
         }
     }
 
+    async function updatePassword(password, event) {
+        event.preventDefault()
+        const response = await fetch(api + '/pw/update', {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + authTokens,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                "id": password.id,
+                "name": password.name,
+                "domain": password.domain,
+                "password": password.password
+            })
+        }).catch(console.log)
+
+        if (response === undefined) {
+            updateAlert("Could not get a response from the service.", false)
+        } else {
+            if (response.ok) {
+                updateAlert("Password successfully updated", true)
+            } else {
+                const json = await response.json()
+                updateAlert(json.message, false)
+            }
+        }
+    }
+
     async function deletePassword(key, event) {
         event.preventDefault()
         const response = await fetch(api + '/pw/' + key, {
@@ -110,6 +142,7 @@ function Passwords() {
             const json = await response.json()
             updateAlert(json.message, false)
         }
+        await fetchPasswords()
     }
 
     return (
@@ -154,7 +187,9 @@ function Passwords() {
                                     <td>{passwords[key].domain}</td>
                                     <td>{passwords[key].name}</td>
                                     <td>
-                                        <input type="password" disabled={true} value={passwords[key].password}/>
+                                        <input type="password" disabled={false} onChange={event => {
+                                            setPassword(key, event.target.value)
+                                        }}/>
                                     </td>
                                     {
                                         document.queryCommandSupported('copy') &&
@@ -164,8 +199,8 @@ function Passwords() {
                                                     fetchUnencryptedPassword(passwords[key].id, e)
                                                 }}>Copy secret
                                                 </button>
-                                                <button className="btn btn-sm btn-primary" onClick={e => {
-
+                                                <button className="btn btn-sm btn-primary" onClick={event => {
+                                                    updatePassword(passwords[key], event)
                                                 }}>Update
                                                 </button>
                                                 <button className="btn btn-sm btn-danger" onClick={e => {

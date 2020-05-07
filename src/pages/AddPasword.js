@@ -9,6 +9,8 @@ function AddPassword() {
     const {authTokens} = useAuth();
 
     const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isSucceeded, setIsSucceeded] = useState(false);
     const [name, setName] = useState('');
     const [domain, setDomain] = useState('');
     const [password, setPassword] = useState('');
@@ -32,11 +34,23 @@ function AddPassword() {
                 ]
             })
         }).catch(console.log);
-        if (response !== undefined && response.ok) {
-            return <Redirect to="/passwords"/>
+
+        if (response !== undefined) {
+            const json = await response.json()
+            if (response.ok) {
+                setIsSucceeded(true);
+            } else {
+                setErrorMessage(json.message);
+                setIsError(true);
+            }
         } else {
+            setErrorMessage("Failed to connect to the service.");
             setIsError(true);
         }
+    }
+
+    if (isSucceeded) {
+        return <Redirect to="/passwords"/>
     }
 
     return (
@@ -71,7 +85,7 @@ function AddPassword() {
                         </div>
                         <input type="submit" className="btn btn-primary" value="Submit"/>
                     </form>
-                    {isError && <div className="alert alert-danger" role="alert">Add password failed!</div>}
+                    {isError && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
                 </div>
             </div>
         </div>
