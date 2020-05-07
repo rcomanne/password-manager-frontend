@@ -28,9 +28,7 @@ pipeline {
 				branch 'master'
 			}
 			steps {
-				sh "npm run build"
-				sh "rm -rf /var/www/password-manager"
-				sh "cp build /var/www/password-manager"
+				sh "./scripts/build_and_deploy.sh"
 			}
 		}
 	}
