@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import {Link, Redirect} from "react-router-dom";
-import {useAuth} from "../context/auth";
+import api from '../context/global';
 
 function Register() {
-    const [isLoggedIn, setLoggedIn] = useState(false);
     const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isSucceeded, setIsSucceeded] = useState(false);
     const [mail, setMail] = useState("");
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
-    const {setAuthTokens} = useAuth();
 
     async function postRegister(event) {
         event.preventDefault();
@@ -16,9 +16,7 @@ function Register() {
             setIsError(true);
             return;
         }
-
-        console.log("submit registration form");
-        const response = await fetch('https://api.rcomanne.nl/user/register', {
+        const response = await fetch(api + '/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -28,18 +26,17 @@ function Register() {
                 "password": password1
             })
         }).catch(console.log);
-        console.log(response);
         if (response.ok) {
-            const json = await response.json();
-            setAuthTokens(json.jwtToken);
-            setLoggedIn(true);
+            setIsSucceeded(true);
         } else {
+            const json = await response.json();
+            setErrorMessage(json.message);
             setIsError(true);
         }
     }
 
-    if (isLoggedIn) {
-        return <Redirect to="/passwords"/>
+    if (isSucceeded) {
+        return <Redirect to="/activate"/>
     }
 
     return (
@@ -66,7 +63,7 @@ function Register() {
                 <input type="submit" className="btn btn-primary" value="Submit"/>
             </form>
             <Link to="/login">Already have an account?</Link>
-            { isError && <div className="alert alert-danger" role="alert">Registration failed!</div> }
+            { isError && <div className="alert alert-danger" role="alert">{errorMessage}</div> }
         </div>
     )
 }

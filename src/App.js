@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import {AuthContext} from "./context/auth";
 import PrivateRoute from "./PrivateRoute";
 import AddPassword from "./pages/AddPasword";
+import Activate from "./pages/Activate";
 
 function App() {
     const existingTokens = JSON.parse(localStorage.getItem("tokens"));
@@ -74,6 +75,7 @@ function App() {
                         <PrivateRoute exact path="/addPassword" component={AddPassword}/>
                         <Route exact path="/login" component={Login}/>
                         <Route exact path="/register" component={Register}/>
+                        <Route exact path="/activate" component={Activate}/>
                         <Route exact path="/contact" component={Contact}/>
                     </div>
                 </div>

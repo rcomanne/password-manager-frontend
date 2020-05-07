@@ -1,0 +1,1 @@
+global.api = 'https://api.rcomanne.nl';

@@ -3,29 +3,26 @@ import {Link, Redirect} from "react-router-dom";
 import {useAuth} from "../context/auth";
 import api from '../context/global';
 
-function Login(props) {
-    const referrer = getReferrer(props.location);
-
-    const [isLoggedIn, setLoggedIn] = useState(false);
+function Activate() {
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [mail, setMail] = useState("");
-    const [password, setPassword] = useState("");
+    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [activationToken, setActivationToken] = useState("");
     const {setAuthTokens} = useAuth();
 
-    async function postLogin(event) {
+    async function postActivationToken(event) {
         event.preventDefault();
-        const response = await fetch(api + '/user/login', {
+        const response = await fetch(api + '/user/activate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "mail": mail,
-                "password": password
+                'activationToken': activationToken,
+                'mail': mail
             })
         }).catch(console.log);
-
         if (response === undefined) {
             setIsError(true);
             setErrorMessage("Could not get a response from the service.")
@@ -41,40 +38,32 @@ function Login(props) {
     }
 
     if (isLoggedIn) {
-        return <Redirect to={referrer}/>
+        return <Redirect to="/passwords"/>
     }
 
     return (
         <div className="container">
-            <form onSubmit={postLogin}>
+            <form onSubmit={postActivationToken}>
+                <h2>Activate your account</h2>
                 <div className="form-group">
-                    <label htmlFor="loginEmail">Email address</label>
+                    <label htmlFor="activationEmail">Email address</label>
                     <input id="mail" type="email" value={mail} className="form-control" required={true}
                            placeholder="Enter email" onChange={e => {
                         setMail(e.target.value);
                     }}/>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="loginPassword">Password</label>
-                    <input id="password" type="password" value={password} className="form-control" required={true}
-                           placeholder="Password" onChange={e => {
-                        setPassword(e.target.value);
+                    <label htmlFor="activationToken">Activation token</label>
+                    <input id="activationToken" type="text" className="form-control" required={true} placeholder="Enter activation token" onChange={e => {
+                        setActivationToken(e.target.value);
                     }}/>
                 </div>
                 <input type="submit" className="btn btn-primary" value="Submit"/>
             </form>
-            <Link to="/register">Don't have an account?</Link>
-            {isError && <div className="alert alert-danger" role="alert">{errorMessage}</div>}
+            <Link to="/login">Already have an <b>activated</b> account?</Link>
+            { isError && <div className="alert alert-danger" role="alert">{errorMessage}</div> }
         </div>
     )
 }
 
-function getReferrer(location) {
-    if (location.state != null) {
-        return location.state.from.pathname;
-    } else {
-        return '/';
-    }
-}
-
-export default Login;
+export default Activate;
