@@ -28,10 +28,9 @@ pipeline {
 				branch 'master'
 			}
 			steps {
-			    dir("/var/www/password-manager-frontend") {
-			        sh "git pull"
-			        sh "npm install - production"
-			    }
+				sh "npm run build"
+				sh "rm -rf /var/www/password-manager"
+				sh "cp build /var/www/password-manager"
 			}
 		}
 	}
