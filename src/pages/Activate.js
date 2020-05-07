@@ -3,7 +3,7 @@ import {Link, Redirect} from "react-router-dom";
 import {useAuth} from "../context/auth";
 
 function Activate() {
-    const api = 'https://pw.rcomanne.nl'
+    const api = 'https://api.rcomanne.nl'
 
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");

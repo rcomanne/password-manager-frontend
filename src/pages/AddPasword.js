@@ -4,7 +4,7 @@ import {Redirect} from "react-router-dom";
 import GeneratePassword from "../components/GeneratePassword";
 
 function AddPassword() {
-    const api = 'https://pw.rcomanne.nl'
+    const api = 'https://api.rcomanne.nl'
 
     const {authTokens} = useAuth();
 

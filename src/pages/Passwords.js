@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import GeneratePassword from "../components/GeneratePassword";
 
 function Passwords() {
-    const api = 'https://pw.rcomanne.nl'
+    const api = 'https://api.rcomanne.nl'
 
     const [passwords, setPasswords] = useState([]);
     const [succeeded, setSucceeded] = useState(false);

@@ -4,7 +4,7 @@ import {useAuth} from "../context/auth";
 
 function Login(props) {
     const referrer = getReferrer(props.location);
-    const api = 'https://pw.rcomanne.nl'
+    const api = 'https://api.rcomanne.nl'
 
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [isError, setIsError] = useState(false);
