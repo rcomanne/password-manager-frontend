@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import {Link, Redirect} from "react-router-dom";
 import {useAuth} from "../context/auth";
-import api from '../context/global';
 
 function Login(props) {
     const referrer = getReferrer(props.location);
+    const api = 'https://pw.rcomanne.nl'
 
     const [isLoggedIn, setLoggedIn] = useState(false);
     const [isError, setIsError] = useState(false);
@@ -15,7 +15,8 @@ function Login(props) {
 
     async function postLogin(event) {
         event.preventDefault();
-        const response = await fetch(api + '/user/login', {
+        const url = api + '/user/login'
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import {Link, Redirect} from "react-router-dom";
-import api from '../context/global';
 
 function Register() {
+    const api = 'https://pw.rcomanne.nl'
+
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [isSucceeded, setIsSucceeded] = useState(false);

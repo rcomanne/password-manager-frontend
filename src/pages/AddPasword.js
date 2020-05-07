@@ -2,9 +2,10 @@ import React, {useState} from "react";
 import {useAuth} from "../context/auth";
 import {Redirect} from "react-router-dom";
 import GeneratePassword from "../components/GeneratePassword";
-import api from '../context/global';
 
 function AddPassword() {
+    const api = 'https://pw.rcomanne.nl'
+
     const {authTokens} = useAuth();
 
     const [isError, setIsError] = useState(false);

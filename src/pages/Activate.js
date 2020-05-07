@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import {Link, Redirect} from "react-router-dom";
 import {useAuth} from "../context/auth";
-import api from '../context/global';
 
 function Activate() {
+    const api = 'https://pw.rcomanne.nl'
+
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [mail, setMail] = useState("");

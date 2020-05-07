@@ -2,9 +2,10 @@ import React, {useEffect, useState} from "react";
 import {useAuth} from "../context/auth";
 import {NavLink} from "react-router-dom";
 import GeneratePassword from "../components/GeneratePassword";
-import api from '../context/global';
 
 function Passwords() {
+    const api = 'https://pw.rcomanne.nl'
+
     const [passwords, setPasswords] = useState([]);
     const [succeeded, setSucceeded] = useState(false);
     const [failed, setFailed] = useState(false);
