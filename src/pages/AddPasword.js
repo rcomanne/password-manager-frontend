@@ -11,6 +11,7 @@ function AddPassword() {
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [isSucceeded, setIsSucceeded] = useState(false);
+    const [succeededMessage, setSucceededMessage] = useState("");
     const [name, setName] = useState('');
     const [domain, setDomain] = useState('');
     const [password, setPassword] = useState('');
@@ -39,6 +40,7 @@ function AddPassword() {
             const json = await response.json()
             if (response.ok) {
                 setIsSucceeded(true);
+                setSucceededMessage("Added password!")
             } else {
                 setErrorMessage(json.message);
                 setIsError(true);
@@ -58,6 +60,7 @@ function AddPassword() {
             <div className="row justify-content-center">
                 <GeneratePassword/>
             </div>
+            {isSucceeded && <div className="row"><div className="alert alert-success" role="alert">{succeededMessage}</div></div>}
             <div className="row justify-content-center">
                 <div className="col">
                     <form onSubmit={postPassword}>

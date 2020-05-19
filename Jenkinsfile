@@ -28,7 +28,11 @@ pipeline {
 				branch 'master'
 			}
 			steps {
-				sh "./scripts/build_and_deploy.sh"
+				dir ("/var/www/password-manager-frontend") {
+					sh "git pull"
+					sh "npm install"
+					sh "npm run build"
+				}
 			}
 		}
 	}
